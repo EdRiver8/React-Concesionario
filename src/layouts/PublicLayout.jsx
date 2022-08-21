@@ -7,9 +7,11 @@ const PublicLayout = ({ children }) => {
   return (
     <div className="flex flex-col justify-between h-screen">
       <Navbar />
-      {/* outlet permite en que parte de la plantilla se van a cargar los elementos hijos cuando se haga match en las rutas */}
-      <Outlet />
-      <main className="h-full overflow-y-scroll">{children}</main>
+      <main className="h-full overflow-y-scroll">
+        {children}
+        {/* outlet permite en que parte de la plantilla se van a cargar los elementos hijos cuando se haga match en las rutas */}
+        <Outlet />
+      </main>
       <Footer />
     </div>
   );
