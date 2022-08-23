@@ -60,15 +60,18 @@ const Clientes = () => {
       >
         Enviar
       </button>
-      {menorEdad ? (
-        <span className="text-3xl text-red-500">
-          Ud es menor de edad, no puede ingresar
-        </span>
-      ) : (
-        <span className="text-3xl text-green-500">
-          Ud es mayor de edad, puede ingresar
-        </span>
-      )}
+      {
+        // renderizado condicional
+        menorEdad ? (
+          <span className="text-3xl text-red-500">
+            Ud es menor de edad, no puede ingresar
+          </span>
+        ) : (
+          <span className="text-3xl text-green-500">
+            Ud es mayor de edad, puede ingresar
+          </span>
+        )
+      }
     </form>
   );
 };
