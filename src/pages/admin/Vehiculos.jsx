@@ -69,7 +69,11 @@ const Vehiculos = () => {
       {mostrarTabla ? (
         <TablaVehiculos listaVehiculos={vehiculos} />
       ) : (
-        <FormularioCreacionVehiculo funcionMostrarTabla={setMostrarTabla} />
+        <FormularioCreacionVehiculo
+          funcionMostrarTabla={setMostrarTabla}
+          funcionAgregarVehiculo={setVehiculos}
+          listaVehiculos={vehiculos}
+        />
       )}
       <ToastContainer position="button-center" autoClose={3000} />
     </div>
@@ -190,7 +194,11 @@ const TablaVehiculos = ({ listaVehiculos }) => {
   );
 };
 
-const FormularioCreacionVehiculo = ({ funcionMostrarTabla }) => {
+const FormularioCreacionVehiculo = ({
+  funcionMostrarTabla,
+  funcionAgregarVehiculo,
+  listaVehiculos,
+}) => {
   const [nombre, setNombre] = useState();
   const [marca, setMarca] = useState();
   const [modelo, setModelo] = useState();
@@ -199,6 +207,10 @@ const FormularioCreacionVehiculo = ({ funcionMostrarTabla }) => {
     console.log(`Nombre: ${nombre}, Marca: ${marca}, Modelo: ${modelo}`);
     toast.success("Vehiculo creado con exito!");
     funcionMostrarTabla(true);
+    funcionAgregarVehiculo([
+      ...listaVehiculos,
+      { nombre: nombre, marca: marca, modelo: modelo },
+    ]);
   };
 
   return (
