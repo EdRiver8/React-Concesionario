@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TriggerDarkMode from "./TriggerDarkMode";
 
 const Navbar = () => {
   return (
@@ -8,11 +9,10 @@ const Navbar = () => {
         <Link to="">Logo</Link>
         <Link to="">Inicio</Link>
         <Link to="">Admin</Link>
+        <li></li>
         <li className="px-3">
           <Link to="/login">
-            <button className="bg-indigo-500 p-2 text-white rounded-lg shadow-md hover:bg-indigo-700">
-              Iniciar Sesion
-            </button>
+            <TriggerDarkMode />
           </Link>
         </li>
       </ul>
