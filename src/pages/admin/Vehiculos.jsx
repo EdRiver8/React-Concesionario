@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const vehiculosBackend = [
   {
@@ -32,6 +34,7 @@ const Vehiculos = () => {
   const [mostrarTabla, setMostrarTabla] = useState(true);
   const [textoBoton, setTextoBoton] = useState("Crear Vehiculo");
   const [vehiculos, setVehiculos] = useState([]);
+  const [colorBoton, setColorBoton] = useState("indigo");
 
   useEffect(() => {
     // Obtener lista de vehiculos del backend
@@ -40,9 +43,11 @@ const Vehiculos = () => {
 
   useEffect(() => {
     if (mostrarTabla) {
-      setTextoBoton("Crear Vehiculo");
+      setTextoBoton("Crear Nuevo Vehiculo");
+      setColorBoton("indigo");
     } else {
       setTextoBoton("Mostrar Todos los Vehiculos");
+      setColorBoton("green");
     }
   }, [mostrarTabla]);
 
@@ -56,7 +61,7 @@ const Vehiculos = () => {
           onClick={() => {
             setMostrarTabla(!mostrarTabla);
           }}
-          className="text-white bg-indigo-500 p-5 rounded-full m-6 w-28 self-end"
+          className={`text-white bg-${colorBoton}-500 p-5 rounded-full m-6 w-28 self-end`}
         >
           {textoBoton}
         </button>
@@ -64,8 +69,9 @@ const Vehiculos = () => {
       {mostrarTabla ? (
         <TablaVehiculos listaVehiculos={vehiculos} />
       ) : (
-        <FormularioCreacionVehiculo />
+        <FormularioCreacionVehiculo funcionMostrarTabla={setMostrarTabla} />
       )}
+      <ToastContainer position="button-center" autoClose={3000} />
     </div>
   );
 
@@ -184,30 +190,80 @@ const TablaVehiculos = ({ listaVehiculos }) => {
   );
 };
 
-const FormularioCreacionVehiculo = () => {
+const FormularioCreacionVehiculo = ({ funcionMostrarTabla }) => {
+  const [nombre, setNombre] = useState();
+  const [marca, setMarca] = useState();
+  const [modelo, setModelo] = useState();
+
+  const enviarAlBackend = () => {
+    console.log(`Nombre: ${nombre}, Marca: ${marca}, Modelo: ${modelo}`);
+    toast.success("Vehiculo creado con exito!");
+    funcionMostrarTabla(true);
+  };
+
   return (
     <div className="flex flex-col item-center justify-center">
       <h2 className="text-2xl font-extrabold text-gray-800 text-center">
         Crear Nuevo Vehiculo
       </h2>
-      <form action="" className="grid grid-cols-2">
-        <input
-          className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
-          type="text"
-        />
-        <input
-          className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
-          type="text"
-        />
-        <input
-          className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
-          type="text"
-        />
-        <input
-          className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
-          type="text"
-        />
-        <button className="col-span-2 bg-green-400 p-2 rounded-full shadow-md ">
+      <form action="" className="flex flex-col">
+        <label htmlFor="nombre" className="flex flex-col">
+          Nombre del Vehiculo
+          <input
+            className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
+            type="text"
+            placeholder="Corolla"
+            name="nombre"
+            value={nombre}
+            onChange={(e) => {
+              setNombre(e.target.value);
+            }}
+          />
+        </label>
+        <label htmlFor="marca" className="flex flex-col">
+          Marca del Vehiculo
+          <select
+            name="marca"
+            id=""
+            className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
+            value={marca}
+            onChange={(e) => {
+              setMarca(e.target.value);
+            }}
+          >
+            <option value="" selected disabled>
+              Seleccione una opcion
+            </option>
+            <option>Renault</option>
+            <option>Toyota</option>
+            <option>Ford</option>
+            <option>Mazda</option>
+            <option>Chevrolet</option>
+          </select>
+        </label>
+        <label htmlFor="modelo" className="flex flex-col">
+          Modelo del Vehiculo
+          <input
+            className="bg-gray-50 border border-gray-500 p-2 rounded-lg m-2"
+            type="number"
+            placeholder="2022"
+            name="modelo"
+            min={1992}
+            max="2023"
+            value={modelo}
+            onChange={(e) => {
+              setModelo(e.target.value);
+            }}
+          />
+        </label>
+        <label htmlFor="marca"></label>
+        <button
+          type="button"
+          className="col-span-2 bg-green-400 p-2 rounded-full shadow-md "
+          onClick={() => {
+            enviarAlBackend();
+          }}
+        >
           Guardar Vehiculo
         </button>
       </form>
